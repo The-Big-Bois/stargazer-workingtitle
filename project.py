@@ -19,7 +19,7 @@ def main():
 
     player = Player(start_pos,496)
     
-
+#apa
     movingsprites = pygame.sprite.Group()
     movingsprites.add(player)
 
