@@ -46,6 +46,9 @@ class Player(pygame.sprite.Sprite):
         self.animation_idle_lasttime = 0
         self.animation_idle_cooldown = 2
 
+        self.dodge_lasttime = 0
+        self.dodge_cooldown = 60
+
     def update(self):
         """ Update player position. """
         self.timer += 1
