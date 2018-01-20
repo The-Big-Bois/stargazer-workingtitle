@@ -39,9 +39,19 @@ class Player(pygame.sprite.Sprite):
 
         self.hitbox = None
 
+        self.timer = 0
+        self.attack_lasttime = 0
+        self.attack_cooldown = 20
+
+        self.animation_idle_lasttime = 0
+        self.animation_idle_cooldown = 2
+
+        self.dodge_lasttime = 0
+        self.dodge_cooldown = 60
+
     def update(self):
         """ Update player position. """
-
+        self.timer += 1
         self.calc_grav()
        
         self.rect.x += self._x
@@ -55,13 +65,15 @@ class Player(pygame.sprite.Sprite):
 
         # Animates idle state when player is not moving
         if self._x == 0 and self._y == 1:
-            self.frame_count += 1
-            if self.frame_count == 24:
-                self.frame_count = 0
-            if self.direction == 'R':
-                self.image = self.idle_frames_r[self.frame_count]
-            if self.direction == 'L':
-                self.image = self.idle_frames_l[self.frame_count]
+            if self.timer > self.animation_idle_lasttime + self.animation_idle_cooldown:
+                self.animation_idle_lasttime = self.timer
+                self.frame_count += 1
+                if self.frame_count == 24:
+                    self.frame_count = 0
+                if self.direction == 'R':
+                    self.image = self.idle_frames_r[self.frame_count]
+                if self.direction == 'L':
+                    self.image = self.idle_frames_l[self.frame_count]
 
         # Hinder movement through obstacles.
         hit_list = pygame.sprite.spritecollide(self, self.room.platform_list, False)
@@ -169,28 +181,32 @@ class Player(pygame.sprite.Sprite):
         self._x = 0
 
 
-    def attack(self):
-        if self.direction == "R":
-            self.hitbox = Hitbox(self.rect.right, self.rect.y+20, 40, 10)
-        elif self.direction == "L":
-            self.hitbox = Hitbox(self.rect.left-40, self.rect.y+20, 40, 10)
-        elif self.direction == "D":
-            self.hitbox = Hitbox(self.rect.left+17, self.rect.bottom, 10, 40)
+    def attack(self, movingsprites):
+        if self.timer > self.attack_lasttime + self.attack_cooldown:
 
-        enemy_hit = pygame.sprite.spritecollide(self.hitbox, self.room.enemy_sprites, False)
-        breakable_hit = pygame.sprite.spritecollide(self.hitbox, self.room.breakables, False)
+            self.attack_lasttime = self.timer
+            if self.direction == "R":
+                self.hitbox = Hitbox(self.rect.right, self.rect.y+20, 40, 10)
+            elif self.direction == "L":
+                self.hitbox = Hitbox(self.rect.left-40, self.rect.y+20, 40, 10)
+            elif self.direction == "D":
+                self.hitbox = Hitbox(self.rect.left+17, self.rect.bottom, 10, 40)
 
-        for enemy in enemy_hit:
-            if enemy.attack_status == False:
-                enemy.hp -= 1
-        
-        for breakable in breakable_hit:
-            breakable.hits -= 10
-            if breakable.hits == 0:
-                position = breakable.get_position()
-                passobj = Passable_Object(position[0],position[1],position[2],position[3], gray)
-                self.room.passobject_list.add(passobj)
-                pygame.sprite.spritecollide(self.hitbox, self.room.breakables, True)
+            enemy_hit = pygame.sprite.spritecollide(self.hitbox, self.room.enemy_sprites, False)
+            breakable_hit = pygame.sprite.spritecollide(self.hitbox, self.room.breakables, False)
+
+            for enemy in enemy_hit:
+                if enemy.attack_status == False:
+                    enemy.hp -= 1
+
+            for breakable in breakable_hit:
+                breakable.hits -= 10
+                if breakable.hits == 0:
+                    position = breakable.get_position()
+                    passobj = Passable_Object(position[0],position[1],position[2],position[3], gray)
+                    self.room.passobject_list.add(passobj)
+                    pygame.sprite.spritecollide(self.hitbox, self.room.breakables, True)
+            movingsprites.add(self.hitbox)
 
     def dodge(self):
         self.dodge == True

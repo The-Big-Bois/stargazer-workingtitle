@@ -44,7 +44,10 @@ def main():
     done = False
     clock = pygame.time.Clock()
 
+    frames_current = 0
+
     while not done:
+        #frames_current += 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
@@ -59,8 +62,8 @@ def main():
                 if event.key == pygame.K_d:
                     player.go_right()
                 if event.key == pygame.K_SPACE:
-                    player.attack()
-                    movingsprites.add(player.hitbox)
+                    player.attack(movingsprites)
+
                 if event.key == pygame.K_LSHIFT:
                     player.dodge()
                 if event.key == pygame.K_TAB:
