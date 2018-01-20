@@ -146,6 +146,9 @@ class Room2(Room):
         self.level_height = 0
         self.level_low = 0
 
+        self.background.add(Background(0,0,800,600,"background-1.png"))
+        self.background_layer.add(Background(0,0,1300,600,"treeline.png"))
+
         obstacles = [[-20,570,496,10,green],
                     [550,570,770,10,green],
                     [650,465,100,20,turqoise]]
