@@ -49,7 +49,8 @@ class Room(object):
         self.world_shift += shift_x
 
         #go through all sprites and shift
-        self.background_layer.rect.x += shift_x/2
+        for layer in self.background_layer:
+            layer.rect.x += shift_x/4
         for platform in self.platform_list:
             platform.rect.x += shift_x
         for passobject in self.passobject_list:

@@ -6,7 +6,7 @@ class Background(pygame.sprite.Sprite):
         super().__init__()
 
         spritesheet = SpriteSheet(sprite)
-        self.image = load_sprites(spritesheet,1,1,800,600,False)[0]
+        self.image = load_sprites(spritesheet,1,1,width,height,False)[0]
 
         self.rect = self.image.get_rect()
         self.rect.x = x
