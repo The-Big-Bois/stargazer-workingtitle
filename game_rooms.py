@@ -168,6 +168,8 @@ class Room3(Room):
         self.level_height = 0
         self.level_low = 0
 
+        self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
+
         obstacles = [[-20,570,1340,10,green],
                     [650,530,100,20,green]]
 
