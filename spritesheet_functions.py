@@ -11,7 +11,7 @@ class SpriteSheet(object):
         """ Constructor. Pass in the file name of the sprite sheet. """
  
         # Load the sprite sheet.
-        self.sprite_sheet = pygame.image.load(os.path.join("Pygame", file_name)).convert()
+        self.sprite_sheet = pygame.image.load(os.path.join("sprites", file_name)).convert()
  
  
     def get_image(self, x, y, width, height):

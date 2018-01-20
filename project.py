@@ -48,10 +48,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 done = True
 
-            elif event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
                     player.jump()
                 if event.key == pygame.K_a:
@@ -66,7 +66,7 @@ def main():
                 if event.key == pygame.K_TAB:
                     player.toggle_gear()
 
-            elif event.type == pygame.KEYUP:
+            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a and player._x < 0:
                     player.stop()
                 if event.key == pygame.K_d and player._x > 0:
