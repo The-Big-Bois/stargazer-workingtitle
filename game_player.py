@@ -46,13 +46,23 @@ class Player(pygame.sprite.Sprite):
         self.animation_idle_lasttime = 0
         self.animation_idle_cooldown = 2
 
+        self.dodge_state = False
         self.dodge_lasttime = 0
-        self.dodge_cooldown = 60
+        self.dodge_cooldown = 20
+        self.dodge_duration = 10
+        self.dodge_speed = 10
 
     def update(self):
         """ Update player position. """
         self.timer += 1
         self.calc_grav()
+        if self.dodge_state:
+            if self.timer > self.dodge_lasttime + self.dodge_duration:
+                self.dodge_state = False
+                if self.direction == "L":
+                    self.go_left()
+                elif self.direction == "R":
+                    self.go_right()
        
         self.rect.x += self._x
         # pos = self.rect.x + self.room.world_shift
@@ -160,7 +170,9 @@ class Player(pygame.sprite.Sprite):
         if len(platform_hit_list) > 0 or len(breakable_hit_list) > 0 or self.rect.bottom >= 600:
             self.direction = "D"
             self._y = -9.5
-            
+
+
+
 
     def go_left(self):
         self.direction = "L"
@@ -209,8 +221,18 @@ class Player(pygame.sprite.Sprite):
             movingsprites.add(self.hitbox)
 
     def dodge(self):
-        self.dodge == True
+        if self.dodge_state == False and self._inair == False:
+            if self.timer > self.dodge_lasttime + self.dodge_cooldown:
 
+                self.dodge_state = True
+                self.dodge_lasttime = self.timer
+                if self.direction == "L":
+                    self._x = -self.dodge_speed
+                elif self.direction == "R":
+                    self._x = self.dodge_speed
+
+
+        """
         self.rect.y += 2
         platform_hit_list = pygame.sprite.spritecollide(self, self.room.platform_list, False)
         breakable_hit_list = pygame.sprite.spritecollide(self, self.room.breakables, False)
@@ -231,6 +253,7 @@ class Player(pygame.sprite.Sprite):
                 self.rect.left += 70
                 if len(obstacles) == 0 and len(breakables) == 0:
                     self.rect.left -= 70 
+        """
 
     def item_pickup(self, item):       
         cloaks = ["cloak_01","cloak_02","cloak_03"]
