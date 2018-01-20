@@ -44,7 +44,10 @@ def main():
     done = False
     clock = pygame.time.Clock()
 
+    frames_current = 0
+
     while not done:
+        #frames_current += 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
