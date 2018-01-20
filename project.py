@@ -62,8 +62,8 @@ def main():
                 if event.key == pygame.K_d:
                     player.go_right()
                 if event.key == pygame.K_SPACE:
-                    player.attack()
-                    movingsprites.add(player.hitbox)
+                    player.attack(movingsprites)
+
                 if event.key == pygame.K_LSHIFT:
                     player.dodge()
                 if event.key == pygame.K_TAB:
