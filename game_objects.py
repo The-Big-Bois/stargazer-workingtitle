@@ -6,7 +6,7 @@ class Background(pygame.sprite.Sprite):
         super().__init__()
 
         spritesheet = SpriteSheet(sprite)
-        self.image = load_sprites(spritesheet,1,1,800,600,False)[0]
+        self.image = load_sprites(spritesheet,1,1,width,height,False)[0]
 
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -14,11 +14,17 @@ class Background(pygame.sprite.Sprite):
 
 
 class Obstacle(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, color):
+    def __init__(self, x, y, width, height, color, sprite, sprite_use, sprite_flip):
         super().__init__()
 
         self.image = pygame.Surface([width, height])
         self.image.fill(color)
+        if sprite_use == True:
+            sprite_sheet = SpriteSheet(sprite)
+            if sprite_flip:
+                self.image = load_sprites(sprite_sheet,1,1,100,20,True)[0]
+            else:
+                self.image = load_sprites(sprite_sheet,1,1,100,20,False)[0]
 
         self.rect = self.image.get_rect()
         self.rect.x = x
