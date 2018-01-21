@@ -22,9 +22,9 @@ class Obstacle(pygame.sprite.Sprite):
         if sprite_use == True:
             sprite_sheet = SpriteSheet(sprite)
             if sprite_flip:
-                self.image = load_sprites(sprite_sheet,1,1,100,20,False)[0]
-            else:
                 self.image = load_sprites(sprite_sheet,1,1,100,20,True)[0]
+            else:
+                self.image = load_sprites(sprite_sheet,1,1,100,20,False)[0]
 
         self.rect = self.image.get_rect()
         self.rect.x = x

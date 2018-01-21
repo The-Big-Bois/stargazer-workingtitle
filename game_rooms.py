@@ -96,13 +96,13 @@ class Room1(Room):
                     [100,-200,20,726,green,"wall.png",False,False],
                     [750,-200,20,676,green,"wall.png",False,False],
                     [700,476,100,20,green,"wall.png",False,False],
-                    [650,370,100,20,red,"sturdy_branch.png",True,False],
-                    [120,-20,100,20,red,"sturdy_branch.png",True,False],
-                    [120,170,100,20,red,"sturdy_branch.png",True,False],
-                    [230,270,100,20,red,"sturdy_branch.png",True,True],
-                    [320,370,100,20,red,"sturdy_branch.png",True,True],
-                    [230,470,110,20,red,"sturdy_branch.png",True,True],
-                    [310,80,100,20,red,"sturdy_branch.png",True,True]]
+                    [650,370,100,20,red,"sturdy_branch.png",True,True],
+                    [120,-20,100,20,red,"sturdy_branch.png",True,True],
+                    [120,170,100,20,red,"sturdy_branch.png",True,True],
+                    [230,270,100,20,red,"sturdy_branch.png",True,False],
+                    [320,370,100,20,red,"sturdy_branch.png",True,False],
+                    [230,470,110,20,red,"sturdy_branch.png",True,False],
+                    [310,80,100,20,red,"sturdy_branch.png",True,False]]
         
         passable_objects = [[230,-200,80,770,gray],
                             [220,-20,10,20,gray],
