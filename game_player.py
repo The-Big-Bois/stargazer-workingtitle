@@ -33,6 +33,9 @@ class Player(pygame.sprite.Sprite):
         self._y = 0
         self.room = None
 
+        self.walk_speed = 4
+        self.air_speed = 3
+
         self.cloak_list = [sprite_sheet]
         self.cloak_index = 0
         self.weapon_upgrade = 0
@@ -51,6 +54,10 @@ class Player(pygame.sprite.Sprite):
         self.dodge_cooldown = 20
         self.dodge_duration = 10
         self.dodge_speed = 10
+        self.dodge_postdodge_speed = 0
+        self.dodge_postdodge_direction = "R"
+        self.dodge_postdodge_jump = False
+        self.dodge_postdodge_attack = False
 
     def update(self):
         """ Update player position. """
@@ -59,11 +66,16 @@ class Player(pygame.sprite.Sprite):
         if self.dodge_state:
             if self.timer > self.dodge_lasttime + self.dodge_duration:
                 self.dodge_state = False
-                if self.direction == "L":
-                    self.go_left()
-                elif self.direction == "R":
-                    self.go_right()
-       
+                self.direction = self.dodge_postdodge_direction
+                self._x = self.dodge_postdodge_speed
+                if self.dodge_postdodge_jump:
+                    self.dodge_postdodge_jump = False
+                    self.jump()
+                if self.dodge_postdodge_attack:
+                    self.dodge_postdodge_attack = False
+                    #self.attack() Not fully implemented, lacks mivingsprites
+
+
         self.rect.x += self._x
         # pos = self.rect.x + self.room.world_shift
         # if self.direction == 'R':
@@ -161,75 +173,99 @@ class Player(pygame.sprite.Sprite):
     # jump height is roughly 105px
     def jump(self):
         """ Called when user hits jump. """
+        if self.dodge_state == False:
+            self.rect.y += 2
+            platform_hit_list = pygame.sprite.spritecollide(self, self.room.platform_list, False)
+            breakable_hit_list = pygame.sprite.spritecollide(self, self.room.breakables, False)
+            self.rect.y -= 2
 
-        self.rect.y += 2
-        platform_hit_list = pygame.sprite.spritecollide(self, self.room.platform_list, False)
-        breakable_hit_list = pygame.sprite.spritecollide(self, self.room.breakables, False)
-        self.rect.y -= 2
-
-        if len(platform_hit_list) > 0 or len(breakable_hit_list) > 0 or self.rect.bottom >= 600:
-            self.direction = "D"
-            self._y = -9.5
-
-
+            if len(platform_hit_list) > 0 or len(breakable_hit_list) > 0 or self.rect.bottom >= 600:
+                self.direction = "D"
+                self._y = -9.5
+        else:
+            self.dodge_postdodge_jump = True
 
 
     def go_left(self):
-        self.direction = "L"
-        if self._y >= 0:
-            self._x = -4
-        if self._inair:
-            self._x = -3
+        if self.dodge_state == False:
+            self.direction = "L"
+            if self._y >= 0:
+                self._x = -1*self.walk_speed
+            if self._inair:
+                self._x = -1*self.air_speed
+        else:
+            self.dodge_postdodge_direction = "L"
+            if self._y >= 0:
+                self.dodge_postdodge_speed = -1*self.walk_speed
+            if self._inair:
+                self.dodge_postdodge_speed = -1*self.air_speed
         
 
     def go_right(self):
-        self.direction = "R"
-        if self._y >= 0:
-            self._x = 4
-        if self._inair:
-            self._x = 3
+        if self.dodge_state == False:
+            self.direction = "R"
+            if self._y >= 0:
+                self._x = self.walk_speed
+            if self._inair:
+                self._x = self.air_speed
+        else:
+            self.dodge_postdodge_direction = "R"
+            if self._y >= 0:
+                self.dodge_postdodge_speed = self.walk_speed
+            if self._inair:
+                self.dodge_postdodge_speed = self.air_speed
 
     def stop(self):
-        self._x = 0
+        if self.dodge_state == False:
+            self._x = 0
+        else:
+            self.dodge_postdodge_speed = 0
+
 
 
     def attack(self, movingsprites):
-        if self.timer > self.attack_lasttime + self.attack_cooldown:
+        if self.dodge_state == False:
+            if self.timer > self.attack_lasttime + self.attack_cooldown:
 
-            self.attack_lasttime = self.timer
-            if self.direction == "R":
-                self.hitbox = Hitbox(self.rect.right, self.rect.y+20, 40, 10)
-            elif self.direction == "L":
-                self.hitbox = Hitbox(self.rect.left-40, self.rect.y+20, 40, 10)
-            elif self.direction == "D":
-                self.hitbox = Hitbox(self.rect.left+17, self.rect.bottom, 10, 40)
+                self.attack_lasttime = self.timer
+                if self.direction == "R":
+                    self.hitbox = Hitbox(self.rect.right, self.rect.y+20, 40, 10)
+                elif self.direction == "L":
+                    self.hitbox = Hitbox(self.rect.left-40, self.rect.y+20, 40, 10)
+                elif self.direction == "D":
+                    self.hitbox = Hitbox(self.rect.left+17, self.rect.bottom, 10, 40)
 
-            enemy_hit = pygame.sprite.spritecollide(self.hitbox, self.room.enemy_sprites, False)
-            breakable_hit = pygame.sprite.spritecollide(self.hitbox, self.room.breakables, False)
+                enemy_hit = pygame.sprite.spritecollide(self.hitbox, self.room.enemy_sprites, False)
+                breakable_hit = pygame.sprite.spritecollide(self.hitbox, self.room.breakables, False)
 
-            for enemy in enemy_hit:
-                if enemy.attack_status == False:
-                    enemy.hp -= 1
+                for enemy in enemy_hit:
+                    if enemy.attack_status == False:
+                        enemy.hp -= 1
 
-            for breakable in breakable_hit:
-                breakable.hits -= 10
-                if breakable.hits == 0:
-                    position = breakable.get_position()
-                    passobj = Passable_Object(position[0],position[1],position[2],position[3], gray)
-                    self.room.passobject_list.add(passobj)
-                    pygame.sprite.spritecollide(self.hitbox, self.room.breakables, True)
-            movingsprites.add(self.hitbox)
+                for breakable in breakable_hit:
+                    breakable.hits -= 10
+                    if breakable.hits == 0:
+                        position = breakable.get_position()
+                        passobj = Passable_Object(position[0],position[1],position[2],position[3], gray)
+                        self.room.passobject_list.add(passobj)
+                        pygame.sprite.spritecollide(self.hitbox, self.room.breakables, True)
+                movingsprites.add(self.hitbox)
+        else:
+            self.dodge_postdodge_attack = True
 
     def dodge(self):
         if self.dodge_state == False and self._inair == False:
             if self.timer > self.dodge_lasttime + self.dodge_cooldown:
+                if self._x != 0:
+                    self.dodge_state = True
+                    self.dodge_lasttime = self.timer
+                    self.dodge_postdodge_direction = self.direction
+                    self.dodge_postdodge_speed = self._x
 
-                self.dodge_state = True
-                self.dodge_lasttime = self.timer
-                if self.direction == "L":
-                    self._x = -self.dodge_speed
-                elif self.direction == "R":
-                    self._x = self.dodge_speed
+                    if self.direction == "L":
+                        self._x = -self.dodge_speed
+                    elif self.direction == "R":
+                        self._x = self.dodge_speed
 
 
         """

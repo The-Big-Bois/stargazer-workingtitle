@@ -92,17 +92,17 @@ class Room1(Room):
         
         self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
 
-        obstacles = [[-20,570,1290,10,green],
-                    [100,-200,20,726,green],
-                    [750,-200,20,676,green],
-                    [700,476,100,20,green],
-                    [650,370,100,20,red],
-                    [120,-20,100,20,red],
-                    [120,170,100,20,red],
-                    [220,270,100,20,red],
-                    [320,370,100,20,red],
-                    [230,470,110,20,red],
-                    [310,80,100,20,red]]
+        obstacles = [[-20,570,1290,10,green,"floor.png",False,False],
+                    [100,-200,20,726,green,"wall.png",False,False],
+                    [750,-200,20,676,green,"wall.png",False,False],
+                    [700,476,100,20,green,"wall.png",False,False],
+                    [650,370,100,20,red,"sturdy_branch.png",True,True],
+                    [120,-20,100,20,red,"sturdy_branch.png",True,True],
+                    [120,170,100,20,red,"sturdy_branch.png",True,True],
+                    [230,270,100,20,red,"sturdy_branch.png",True,False],
+                    [320,370,100,20,red,"sturdy_branch.png",True,False],
+                    [230,470,110,20,red,"sturdy_branch.png",True,False],
+                    [310,80,100,20,red,"sturdy_branch.png",True,False]]
         
         passable_objects = [[230,-200,80,770,gray],
                             [220,-20,10,20,gray],
@@ -122,7 +122,7 @@ class Room1(Room):
         
         #make following for-loop into function
         for item in obstacles:
-            obst = Obstacle(item[0], item[1], item[2],item[3],item[4])
+            obst = Obstacle(item[0], item[1], item[2],item[3],item[4],item[5],item[6],item[7])
             self.platform_list.add(obst)
         
         for item in passable_objects:
@@ -150,12 +150,12 @@ class Room2(Room):
         self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
         self.background_layer.add(Background(0,0,1300,600,"test-tree.gif"))
 
-        obstacles = [[-20,570,496,10,green],
-                    [550,570,770,10,green],
-                    [650,465,100,20,turqoise]]
+        obstacles = [[-20,570,496,10,green,"floor.png",False,False],
+                    [550,570,770,10,green,"floor.png",False,False],
+                    [650,465,100,20,turqoise,"sturdy_branch.png",True,True]]
 
         for item in obstacles:
-            obst = Obstacle(item[0], item[1], item[2],item[3],item[4])
+            obst = Obstacle(item[0], item[1], item[2],item[3],item[4],item[5],item[6],item[7])
             self.platform_list.add(obst)
 
 class Room3(Room):
@@ -168,9 +168,11 @@ class Room3(Room):
         self.level_height = 0
         self.level_low = 0
 
-        obstacles = [[-20,570,1340,10,green],
-                    [650,530,100,20,green]]
+        self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
+
+        obstacles = [[-20,570,1340,10,green,"floor.png",False,False],
+                    [650,530,100,20,green,"sturdy_branch.png",True,True]]
 
         for item in obstacles:
-            obst = Obstacle(item[0], item[1], item[2],item[3],item[4])
+            obst = Obstacle(item[0], item[1], item[2],item[3],item[4],item[5],item[6],item[7])
             self.platform_list.add(obst)
