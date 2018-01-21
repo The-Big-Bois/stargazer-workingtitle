@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
         self.dodge_postdodge_speed = 0
         self.dodge_postdodge_direction = "R"
         self.dodge_postdodge_jump = False
-
+        self.dodge_postdodge_attack = False
 
     def update(self):
         """ Update player position. """
@@ -71,6 +71,9 @@ class Player(pygame.sprite.Sprite):
                 if self.dodge_postdodge_jump:
                     self.dodge_postdodge_jump = False
                     self.jump()
+                if self.dodge_postdodge_attack:
+                    self.dodge_postdodge_attack = False
+                    #self.attack() Not fully implemented, lacks mivingsprites
 
 
         self.rect.x += self._x
@@ -247,6 +250,8 @@ class Player(pygame.sprite.Sprite):
                         self.room.passobject_list.add(passobj)
                         pygame.sprite.spritecollide(self.hitbox, self.room.breakables, True)
                 movingsprites.add(self.hitbox)
+        else:
+            self.dodge_postdodge_attack = True
 
     def dodge(self):
         if self.dodge_state == False and self._inair == False:
