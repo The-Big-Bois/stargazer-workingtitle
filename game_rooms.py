@@ -27,8 +27,8 @@ class Room(object):
         self.background_layer.update()
         self.platform_list.update()
         self.passobject_list.update()
-        self.breakables.update()
         self.items.update()
+        self.breakables.update()
         self.enemy_sprites.update()
 
     def draw(self, screen):
@@ -39,8 +39,8 @@ class Room(object):
         self.background_layer.draw(screen)
         self.passobject_list.draw(screen)
         self.platform_list.draw(screen)
-        self.breakables.draw(screen)
         self.items.draw(screen)
+        self.breakables.draw(screen)
         self.enemy_sprites.draw(screen)
     
     def shift_world(self, shift_x):
@@ -55,10 +55,10 @@ class Room(object):
             platform.rect.x += shift_x
         for passobject in self.passobject_list:
             passobject.rect.x += shift_x
-        for breakable in self.breakables:
-            breakable.rect.x += shift_x
         for item in self.items:
-            item.rect.x += shift_x    
+            item.rect.x += shift_x 
+        for breakable in self.breakables:
+            breakable.rect.x += shift_x   
         for enemy in self.enemy_sprites:
             enemy.rect.x += shift_x
 
@@ -72,10 +72,10 @@ class Room(object):
             platform.rect.y += shift_y
         for passobject in self.passobject_list:
             passobject.rect.y += shift_y
-        for breakable in self.breakables:
-            breakable.rect.y += shift_y
         for item in self.items:
-            item.rect.y += shift_y    
+            item.rect.y += shift_y
+        for breakable in self.breakables:
+            breakable.rect.y += shift_y    
         for enemy in self.enemy_sprites:
             enemy.rect.y += shift_y
 
@@ -92,7 +92,7 @@ class Room1(Room):
         
         self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
 
-        obstacles = [[-20,570,1290,10,green,"floor.png",False,False],
+        obstacles = [[-20,570,1290,40,green,"floor.png",False,False],
                     [100,-200,20,726,green,"wall.png",False,False],
                     [750,-200,20,676,green,"wall.png",False,False],
                     [700,476,100,20,green,"wall.png",False,False],
@@ -150,8 +150,8 @@ class Room2(Room):
         self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
         self.background_layer.add(Background(0,0,1300,600,"test-tree.gif"))
 
-        obstacles = [[-20,570,496,10,green,"floor.png",False,False],
-                    [550,570,770,10,green,"floor.png",False,False],
+        obstacles = [[-20,570,496,40,green,"floor.png",False,False],
+                    [550,570,770,40,green,"floor.png",False,False],
                     [650,465,100,20,turqoise,"sturdy_branch.png",True,True]]
 
         for item in obstacles:
@@ -170,7 +170,7 @@ class Room3(Room):
 
         self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
 
-        obstacles = [[-20,570,1340,10,green,"floor.png",False,False],
+        obstacles = [[-20,570,1340,40,green,"floor.png",False,False],
                     [650,530,100,20,green,"sturdy_branch.png",True,True]]
 
         for item in obstacles:
