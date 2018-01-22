@@ -27,8 +27,8 @@ class Room(object):
         self.background_layer.update()
         self.platform_list.update()
         self.passobject_list.update()
-        self.breakables.update()
         self.items.update()
+        self.breakables.update()
         self.enemy_sprites.update()
 
     def draw(self, screen):
@@ -39,8 +39,8 @@ class Room(object):
         self.background_layer.draw(screen)
         self.passobject_list.draw(screen)
         self.platform_list.draw(screen)
-        self.breakables.draw(screen)
         self.items.draw(screen)
+        self.breakables.draw(screen)
         self.enemy_sprites.draw(screen)
     
     def shift_world(self, shift_x):
@@ -55,10 +55,10 @@ class Room(object):
             platform.rect.x += shift_x
         for passobject in self.passobject_list:
             passobject.rect.x += shift_x
-        for breakable in self.breakables:
-            breakable.rect.x += shift_x
         for item in self.items:
-            item.rect.x += shift_x    
+            item.rect.x += shift_x 
+        for breakable in self.breakables:
+            breakable.rect.x += shift_x   
         for enemy in self.enemy_sprites:
             enemy.rect.x += shift_x
 
@@ -72,10 +72,10 @@ class Room(object):
             platform.rect.y += shift_y
         for passobject in self.passobject_list:
             passobject.rect.y += shift_y
-        for breakable in self.breakables:
-            breakable.rect.y += shift_y
         for item in self.items:
-            item.rect.y += shift_y    
+            item.rect.y += shift_y
+        for breakable in self.breakables:
+            breakable.rect.y += shift_y    
         for enemy in self.enemy_sprites:
             enemy.rect.y += shift_y
 
