@@ -43,14 +43,19 @@ class Passable_Object(pygame.sprite.Sprite):
         self.rect.y = y
 
 class Breakable_Object(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, color, collapsing):
+    def __init__(self, x, y, width, height, color, sprite, sprite_use, sprite_flip, collapsing):
         super().__init__()
 
         self.color = color
 
         self.image = pygame.Surface([width, height])
         self.image.fill(color)
-
+        if sprite_use:
+            sprite_sheet = SpriteSheet(sprite)
+            if sprite_flip:
+                self.image = load_sprites(sprite_sheet,1,1,65,37,True)[0]
+            else:
+                self.image = load_sprites(sprite_sheet,1,1,65,37,False)[0]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y

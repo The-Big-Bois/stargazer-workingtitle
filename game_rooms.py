@@ -109,12 +109,12 @@ class Room1(Room):
                             [220,170,10,20,gray],
                             [310,370,10,20,gray]]
 
-        breakable_objects = [[700,496,20,74,brown, False],
-                            [600,516,20,54,brown, False],
-                            [620,516,80,20,brown,False],
-                            [100,496,20,74,brown, False],
-                            [500,300,100,20,brown, True],
-                            [500,195,100,20,brown, True]]
+        breakable_objects = [[700,496,20,74,brown,"chest-battered.png",False,False,False],
+                            [600,516,20,54,brown,"chest-battered.png",False,False,False],
+                            [620,516,80,20,brown,"chest-battered.png",False,False,False],
+                            [100,496,20,74,brown,"door.png",False,False,False],
+                            [500,300,100,20,brown,"breaking_branch.png",False,False,True],
+                            [500,195,100,20,brown,"breaking_branch.png",False,False,True]]
 
         #items = [[772,454,20,28, "cloak", "red_poncho_spritesheet.png"]]
         items = [[645,545,20,28, "cloak_01", "red_poncho_spritesheet.png"],
@@ -122,15 +122,15 @@ class Room1(Room):
         
         #make following for-loop into function
         for item in obstacles:
-            obst = Obstacle(item[0], item[1], item[2],item[3],item[4],item[5],item[6],item[7])
+            obst = Obstacle(item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7])
             self.platform_list.add(obst)
         
         for item in passable_objects:
-            passobj = Passable_Object(item[0], item[1], item[2], item[3], item[4])
+            passobj = Passable_Object(item[0],item[1],item[2],item[3],item[4])
             self.passobject_list.add(passobj)
 
         for item in breakable_objects:
-            breakobj = Breakable_Object(item[0], item[1], item[2], item[3], item[4], item[5])
+            breakobj = Breakable_Object(item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7],item[8])
             self.breakables.add(breakobj)
         
         for pickup in items:
