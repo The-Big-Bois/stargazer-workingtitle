@@ -138,7 +138,7 @@ class Player(pygame.sprite.Sprite):
                 self.rect.top = breakable.rect.bottom
             elif breakable.hits <= 0:
                 position = breakable.get_position()
-                passobj = Passable_Object(position[0],position[1],position[2],position[3], gray)
+                passobj = Passable_Object(position[0],position[1],position[2],position[3], gray,"empty.png",False,False)
                 self.room.passobject_list.add(passobj)
                 pygame.sprite.spritecollide(self, self.room.breakables, True)
             self._y = 0
@@ -246,7 +246,7 @@ class Player(pygame.sprite.Sprite):
                     breakable.hits -= 10
                     if breakable.hits == 0:
                         position = breakable.get_position()
-                        passobj = Passable_Object(position[0],position[1],position[2],position[3], gray)
+                        passobj = Passable_Object(position[0],position[1],position[2],position[3], gray,"empty.png",False,False)
                         self.room.passobject_list.add(passobj)
                         pygame.sprite.spritecollide(self.hitbox, self.room.breakables, True)
                 movingsprites.add(self.hitbox)

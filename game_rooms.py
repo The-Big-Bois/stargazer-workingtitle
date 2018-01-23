@@ -90,7 +90,7 @@ class Room1(Room):
         self.level_height = 150
         self.level_low = 0
         
-        self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
+        self.background.add(Background(0,0,800,600,gray,"moone_ver_3.png",True,False))
 
         obstacles = [[-20,570,1290,40,green,"floor.png",False,False],
                     [100,-200,20,726,green,"wall.png",False,False],
@@ -104,10 +104,10 @@ class Room1(Room):
                     [230,470,110,20,red,"sturdy_branch.png",True,False],
                     [310,80,100,20,red,"sturdy_branch.png",True,False]]
         
-        passable_objects = [[230,-200,80,770,gray],
-                            [220,-20,10,20,gray],
-                            [220,170,10,20,gray],
-                            [310,370,10,20,gray]]
+        passable_objects = [[230,-200,80,770,gray,"tree.png",False,False],
+                            [220,-20,10,20,gray,"branch.png",False,False],
+                            [220,170,10,20,gray,"branch.png",False,False],
+                            [310,370,10,20,gray,"branch.png",False,False]]
 
         breakable_objects = [[700,496,20,74,brown,"chest-battered.png",False,False,False],
                             #[600,516,20,54,brown,"chest-battered.png",False,False,False],
@@ -118,8 +118,8 @@ class Room1(Room):
                             [630,533,65,37,brown,"chest-battered.gif",True,False,True]]
 
         #items = [[772,454,20,28, "cloak", "red_poncho_spritesheet.png"]]
-        items = [[645,545,20,28, "cloak_01", "red_poncho_spritesheet.png"],
-                [155,-45,20,28, "cloak_02", "blue_poncho_spritesheet.png"]]
+        items = [[645,545,20,28,gray,"red_poncho_spritesheet.png",True,False,"cloak_01"],
+                [155,-45,20,28,gray,"blue_poncho_spritesheet.png",True,False,"cloak_02"]]
         
         #make following for-loop into function
         for item in obstacles:
@@ -127,7 +127,7 @@ class Room1(Room):
             self.platform_list.add(obst)
         
         for item in passable_objects:
-            passobj = Passable_Object(item[0],item[1],item[2],item[3],item[4])
+            passobj = Passable_Object(item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7])
             self.passobject_list.add(passobj)
 
         for item in breakable_objects:
@@ -135,7 +135,7 @@ class Room1(Room):
             self.breakables.add(breakobj)
         
         for pickup in items:
-            item = Item(pickup[0], pickup[1], pickup[2], pickup[3], pickup[4], pickup[5])
+            item = Item(pickup[0], pickup[1], pickup[2], pickup[3], pickup[4], pickup[5],pickup[6],pickup[7],pickup[8])
             self.items.add(item)
 
 class Room2(Room):
@@ -148,8 +148,8 @@ class Room2(Room):
         self.level_height = 0
         self.level_low = 0
 
-        self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
-        self.background_layer.add(Background(0,0,1300,600,"test-tree.gif"))
+        self.background.add(Background(0,0,800,600,gray,"moone_ver_3.png",True,False))
+        self.background_layer.add(Background(0,0,1300,600,gray,"test-tree.gif",True,False))
 
         obstacles = [[-20,570,496,40,green,"floor.png",False,False],
                     [550,570,770,40,green,"floor.png",False,False],
@@ -169,7 +169,7 @@ class Room3(Room):
         self.level_height = 0
         self.level_low = 0
 
-        self.background.add(Background(0,0,800,600,"moone_ver_3.png"))
+        self.background.add(Background(0,0,800,600,gray,"moone_ver_3.png",True,False))
 
         obstacles = [[-20,570,1340,40,green,"floor.png",False,False],
                     [650,530,100,20,green,"sturdy_branch.png",True,True]]
