@@ -1,5 +1,7 @@
 # ~~ Globals ~~
 
+screen_width = 800
+screen_height = 600
 orange = (255,100,0)
 black = (0,0,0)
 turqoise = (158,255,203)

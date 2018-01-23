@@ -1,19 +1,7 @@
 import pygame
 from spritesheet_functions import *
 
-class Background(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, sprite):
-        super().__init__()
-
-        spritesheet = SpriteSheet(sprite)
-        self.image = load_sprites(spritesheet,1,1,width,height,False)[0]
-
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
-
-class Obstacle(pygame.sprite.Sprite):
+class Game_Object(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color, sprite, sprite_use, sprite_flip):
         super().__init__()
 
@@ -22,45 +10,32 @@ class Obstacle(pygame.sprite.Sprite):
         if sprite_use == True:
             sprite_sheet = SpriteSheet(sprite)
             if sprite_flip:
-                self.image = load_sprites(sprite_sheet,1,1,100,20,True)[0]
+                self.image = load_sprites(sprite_sheet,1,1,width,height,True)[0]
             else:
-                self.image = load_sprites(sprite_sheet,1,1,100,20,False)[0]
+                self.image = load_sprites(sprite_sheet,1,1,width,height,False)[0]
 
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
+class Background(Game_Object):
+    def __init__(self, x, y, width, height, color, sprite, sprite_use, sprite_flip):
+        super().__init__(x, y, width, height, color, sprite, sprite_use, sprite_flip)
 
-class Passable_Object(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, color):
-        super().__init__()
 
-        self.image = pygame.Surface([width, height])
-        self.image.fill(color)
+class Obstacle(Game_Object):
+    def __init__(self, x, y, width, height, color, sprite, sprite_use, sprite_flip):
+        super().__init__(x, y, width, height, color, sprite, sprite_use, sprite_flip)
 
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
 
-class Breakable_Object(pygame.sprite.Sprite):
+class Passable_Object(Game_Object):
+    def __init__(self, x, y, width, height, color, sprite, sprite_use, sprite_flip):
+        super().__init__(x, y, width, height, color, sprite, sprite_use, sprite_flip)
+
+
+class Breakable_Object(Game_Object):
     def __init__(self, x, y, width, height, color, sprite, sprite_use, sprite_flip, collapsing):
-        super().__init__()
-
-        self.color = color
-
-        self.image = pygame.Surface([width, height])
-        self.image.fill(color)
-        if sprite_use:
-            sprite_sheet = SpriteSheet(sprite)
-            if sprite_flip:
-                self.image = load_sprites(sprite_sheet,1,1,65,37,True)[0]
-            else:
-                self.image = load_sprites(sprite_sheet,1,1,65,37,False)[0]
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.rect.w = width
-        self.rect.h = height
+        super().__init__(x, y, width, height, color, sprite, sprite_use, sprite_flip)
 
         self.hits = 30
     
@@ -69,22 +44,16 @@ class Breakable_Object(pygame.sprite.Sprite):
     def get_position(self):
         return (self.rect.x, self.rect.y, self.rect.w, self.rect.h)
 
-class Item(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, item_type, sprite):
-        super().__init__()
+
+class Item(Game_Object):
+    def __init__(self, x, y, width, height, color, sprite, sprite_use, sprite_flip, item_type):
+        super().__init__(x, y, width, height, color, sprite, sprite_use, sprite_flip)
 
         self.item_type = item_type
 
         sprite_sheet = SpriteSheet(sprite)
         self.item_frames = load_sprites(sprite_sheet,5,4,28,22,False)
-        
         self.image = self.item_frames[0]
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.rect.w = width
-        self.rect.h = height
-
         self.frame_count = 0
     
     def update(self):
