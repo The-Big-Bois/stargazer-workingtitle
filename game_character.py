@@ -7,7 +7,7 @@ import numpy as np
 
 class Character(pygame.sprite.Sprite):
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, walk_speed, air_speed):
         super().__init__()
 
         self.direction 
@@ -23,8 +23,8 @@ class Character(pygame.sprite.Sprite):
         self.position = np.array([self.rect.x,self.rect.y])
 
         self.move_speed = np.array([0,0])
-        self.walk_speed = 3.5
-        self.air_speed = 2
+        self.walk_speed = walk_speed
+        self.air_speed = air_speed
 
         self.hitbox = None
         self.attack_box = None

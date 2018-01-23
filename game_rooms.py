@@ -110,11 +110,12 @@ class Room1(Room):
                             [310,370,10,20,gray]]
 
         breakable_objects = [[700,496,20,74,brown,"chest-battered.png",False,False,False],
-                            [600,516,20,54,brown,"chest-battered.png",False,False,False],
-                            [620,516,80,20,brown,"chest-battered.png",False,False,False],
+                            #[600,516,20,54,brown,"chest-battered.png",False,False,False],
+                            #[620,516,80,20,brown,"chest-battered.png",False,False,False],
                             [100,496,20,74,brown,"door.png",False,False,False],
                             [500,300,100,20,brown,"breaking_branch.png",False,False,True],
-                            [500,195,100,20,brown,"breaking_branch.png",False,False,True]]
+                            [500,195,100,20,brown,"breaking_branch.png",False,False,True],
+                            [630,533,65,37,brown,"chest-battered.gif",True,False,True]]
 
         #items = [[772,454,20,28, "cloak", "red_poncho_spritesheet.png"]]
         items = [[645,545,20,28, "cloak_01", "red_poncho_spritesheet.png"],
