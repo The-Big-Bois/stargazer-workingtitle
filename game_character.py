@@ -21,7 +21,7 @@ class Character(pygame.sprite.Sprite):
         for sprite_sheets in sprite_sheet_list:
             self.animation_states.append(load_sprites(sprite_sheets,rows,columns,sprite_width,sprite_height,flip))
         self.animation_current = self.animation_states[0]
-        self.image = self.animation_states[0][0]
+        self.image = self.animation_current[0]
 
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -42,7 +42,7 @@ class Character(pygame.sprite.Sprite):
         self.timer += 1
         self.calc_grav()
         self.position += self.move_speed 
-        self.animate(animation_current,24,2)
+        self.animate(self.animation_current,24,2)
 
         # Hinder movement through obstacles
         obstacle_hit_list = pygame.sprite.spritecollide(self, self.room.platform_list, False)
