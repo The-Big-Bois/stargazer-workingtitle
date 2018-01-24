@@ -37,8 +37,8 @@ class Room(object):
 
         self.background.draw(screen)
         self.background_layer.draw(screen)
-        self.passobject_list.draw(screen)
         self.platform_list.draw(screen)
+        self.passobject_list.draw(screen)
         self.items.draw(screen)
         self.breakables.draw(screen)
         self.enemy_sprites.draw(screen)
@@ -96,26 +96,33 @@ class Room1(Room):
                     [100,-200,20,726,green,"wall.png",False,False],
                     [750,-200,20,676,green,"wall.png",False,False],
                     [700,476,100,20,green,"wall.png",False,False],
-                    [650,370,100,20,red,"sturdy_branch.png",True,True],
-                    [120,-20,100,20,red,"sturdy_branch.png",True,True],
-                    [120,170,100,20,red,"sturdy_branch.png",True,True],
-                    [230,270,100,20,red,"sturdy_branch.png",True,False],
-                    [320,370,100,20,red,"sturdy_branch.png",True,False],
-                    [230,470,110,20,red,"sturdy_branch.png",True,False],
-                    [310,80,100,20,red,"sturdy_branch.png",True,False]]
+                    [650,370,100,20,red,"sturdy_branch_swapped.gif",True,True],
+                    [120,-20,100,20,red,"sturdy_branch_swapped.gif",True,True],
+                    [120,170,100,20,red,"sturdy_branch_swapped.gif",True,True],
+                    [230,270,100,20,red,"sturdy_branch_swapped.gif",True,False],
+                    [320,370,100,20,red,"sturdy_branch_swapped.gif",True,False],
+                    [230,470,100,20,red,"sturdy_branch_swapped.gif",True,False],
+                    [310,80,100,20,red,"sturdy_branch_swapped.gif",True,False]]
         
-        passable_objects = [[230,-200,80,770,gray,"tree.png",False,False],
+        passable_objects = [[230,-1013,100,1600,gray,"tree_1.gif",True,False],
                             [220,-20,10,20,gray,"branch.png",False,False],
                             [220,170,10,20,gray,"branch.png",False,False],
-                            [310,370,10,20,gray,"branch.png",False,False]]
+                            [310,370,10,20,gray,"branch.png",False,False],
+                            [650,370,100,20,red,"sturdy_branch_swapped.gif",True,True],
+                            [120,-20,100,20,red,"sturdy_branch_swapped.gif",True,True],
+                            [120,170,100,20,red,"sturdy_branch_swapped.gif",True,True],
+                            [230,270,100,20,red,"sturdy_branch_swapped.gif",True,False],
+                            [320,370,100,20,red,"sturdy_branch_swapped.gif",True,False],
+                            [230,470,100,20,red,"sturdy_branch_swapped.gif",True,False],
+                            [310,80,100,20,red,"sturdy_branch_swapped.gif",True,False]]
 
-        breakable_objects = [[700,496,20,74,brown,"chest-battered.png",False,False,False],
-                            #[600,516,20,54,brown,"chest-battered.png",False,False,False],
-                            #[620,516,80,20,brown,"chest-battered.png",False,False,False],
+        breakable_objects = [[700,496,20,74,brown,"chest_battered.png",False,False,False],
+                            #[600,516,20,54,brown,"chest_battered.png",False,False,False],
+                            #[620,516,80,20,brown,"chest_battered.png",False,False,False],
                             [100,496,20,74,brown,"door.png",False,False,False],
                             [500,300,100,20,brown,"breaking_branch.png",False,False,True],
                             [500,195,100,20,brown,"breaking_branch.png",False,False,True],
-                            [630,533,65,37,brown,"chest-battered.gif",True,False,True]]
+                            [630,533,65,37,brown,"chest_battered.gif",True,False,True]]
 
         #items = [[772,454,20,28, "cloak", "red_poncho_spritesheet.png"]]
         items = [[645,545,20,28,gray,"red_poncho_spritesheet.png",True,False,"cloak_01"],
@@ -153,7 +160,7 @@ class Room2(Room):
 
         obstacles = [[-20,570,496,40,green,"floor.png",False,False],
                     [550,570,770,40,green,"floor.png",False,False],
-                    [650,465,100,20,turqoise,"sturdy_branch.png",True,True]]
+                    [650,465,100,20,turqoise,"sturdy_branch_swapped.png",True,True]]
 
         for item in obstacles:
             obst = Obstacle(item[0], item[1], item[2],item[3],item[4],item[5],item[6],item[7])
@@ -172,7 +179,7 @@ class Room3(Room):
         self.background.add(Background(0,0,800,600,gray,"moone_ver_3.png",True,False))
 
         obstacles = [[-20,570,1340,40,green,"floor.png",False,False],
-                    [650,530,100,20,green,"sturdy_branch.png",True,True]]
+                    [650,530,100,20,green,"sturdy_branch_swapped.png",True,True]]
 
         for item in obstacles:
             obst = Obstacle(item[0], item[1], item[2],item[3],item[4],item[5],item[6],item[7])
