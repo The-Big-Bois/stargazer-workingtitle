@@ -7,15 +7,21 @@ import numpy as np
 
 class Character(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, walk_speed, air_speed):
+    def __init__(self, x, y, walk_speed, air_speed, sprite_sheet_list):
         super().__init__()
 
         self.direction 
         self.frame_count = 0
 
-        sprite_sheet = SpriteSheet("file_name.png")
-        self.sprite_frames = load_sprites(sprite_sheet,rows,columns,sprite_width,sprite_height,flip)
-        self.image = self.sprite_frames[0]
+        # animation_states will be a list of lists, every element
+        # being a list of sprites for a given animation. first list
+        # is the list of idle sprites, next list is the list of walking
+        # sprites etc.
+        self.animation_states = []
+        for sprite_sheets in sprite_sheet_list:
+            self.animation_states.append(load_sprites(sprite_sheets,rows,columns,sprite_width,sprite_height,flip))
+        self.animation_current = self.animation_states[0]
+        self.image = self.animation_states[0][0]
 
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -36,6 +42,7 @@ class Character(pygame.sprite.Sprite):
         self.timer += 1
         self.calc_grav()
         self.position += self.move_speed 
+        self.animate(animation_current,24,2)
 
         # Hinder movement through obstacles
         obstacle_hit_list = pygame.sprite.spritecollide(self, self.room.platform_list, False)
@@ -83,6 +90,14 @@ class Character(pygame.sprite.Sprite):
             self.move_speed[1] = 0
             self.rect.bottom = (screen_height+character_height)
 
+    def animate(self, sprites, frames, time_per_frame):
+        if self.timer > self.animation_lastframe + time_per_frame:
+            self.animation_lastframe = self.timer
+            self.frame_count += 1
+            if self.frame_count == frames:
+                self.frame_count = 0
+            self.image = self.sprites[self.frame_count]
+
     def go_left(self):
         self.direction = "L"
         if self.move_speed[1] >= 0:
@@ -99,3 +114,7 @@ class Character(pygame.sprite.Sprite):
 
     def stop(self):
         self.move_speed[0] = 0
+        if self.direction == 'R':
+            self.animation_current = self.animation_states[0]
+        if self.direction == 'L':
+            self.animation_current = self.animation_states[1]
