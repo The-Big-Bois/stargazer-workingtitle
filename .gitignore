@@ -2,3 +2,4 @@ __pycache__
 *.pyc
 *.json
 oldgame_objects.py
+nonworkingcharacter.py

@@ -1,5 +1,6 @@
 import pygame
 from spritesheet_functions import *
+from game_globals import *
 
 class Game_Object(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color, sprite, sprite_use, sprite_flip):
@@ -63,5 +64,14 @@ class Item(Game_Object):
             self.frame_count = 0                
         self.image = self.item_frames[self.frame_count]
 
+class Hitbox(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height):
+        super().__init__()
+    
+        self.image = pygame.Surface([width, height])
+        self.image.fill(red)
 
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
     

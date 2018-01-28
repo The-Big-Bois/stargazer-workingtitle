@@ -5,7 +5,9 @@ from spritesheet_functions import *
 from game_objects import *
 from game_rooms import *
 from game_globals import *
-from game_player import *
+# from game_player import *
+from game_character import *
+from sprite_sheets import *
 
 
 def main():
@@ -17,7 +19,8 @@ def main():
 
     # ~~~ Objects ~~~
 
-    player = Player(start_pos,496)
+    # player = Player(start_pos,496)
+    player = Player(start_pos,496,4,3,player_sprites,sprite_sheet_list_names)
     
     movingsprites = pygame.sprite.Group()
     movingsprites.add(player)
@@ -69,9 +72,9 @@ def main():
                     player.toggle_gear()
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_a and player._x < 0:
+                if event.key == pygame.K_a and player.move_speed[0] < 0:
                     player.stop()
-                if event.key == pygame.K_d and player._x > 0:
+                if event.key == pygame.K_d and player.move_speed[0] > 0:
                     player.stop()
                 if event.key == pygame.K_SPACE:
                     movingsprites.remove(player.hitbox)
