@@ -91,7 +91,7 @@ class Room1(Room):
         self.level_low = 0
         
         self.background.add(Background(0,0,800,600,gray,"moone_ver_3.png",True,False))
-
+                    #reminder[locationx,y,sizex,y]
         obstacles = [[-20,570,1290,40,green,"floor.png",False,False],
                     [100,-200,20,726,green,"wall.png",False,False],
                     [750,-200,20,676,green,"wall.png",False,False],
@@ -104,7 +104,7 @@ class Room1(Room):
                     [230,470,100,20,red,"sturdy_branch_swapped.gif",True,False],
                     [310,80,100,20,red,"sturdy_branch_swapped.gif",True,False]]
         
-        passable_objects = [[230,-1013,100,1600,gray,"tree_1.gif",True,False],
+        passable_objects = [[120,-995,300,1600,gray,"phat_tree.gif",True,False],
                             [220,-20,10,20,gray,"branch.png",False,False],
                             [220,170,10,20,gray,"branch.png",False,False],
                             [310,370,10,20,gray,"branch.png",False,False],
