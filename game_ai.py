@@ -1,0 +1,1 @@
+bandit_ai = {'move_speed': 3, 'jump_strength': -9.5, 'detection_x': 100, 'detection_y': 80, 'aggro_x': 150, 'aggro_y': 100, 'hp': 100, 'attack_range': 20, 'attack_damage': 15}

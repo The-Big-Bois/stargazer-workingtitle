@@ -6,8 +6,9 @@ from game_objects import *
 from game_rooms import *
 from game_globals import *
 # from game_player import *
-from game_character import *
+from game_character import *    
 from sprite_sheets import *
+from game_ai import *
 
 
 def main():
