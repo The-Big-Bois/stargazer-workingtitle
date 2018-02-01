@@ -21,10 +21,13 @@ def main():
     # ~~~ Objects ~~~
 
     # player = Player(start_pos,496)
-    player = Player(start_pos,496,4,3,player_sprites,sprite_sheet_list_names)
+    player = Player(start_pos,496,4,3,player_sprites,sprite_sheet_list_names,player_sheet_info)
     
     movingsprites = pygame.sprite.Group()
     movingsprites.add(player)
+    health_bar_background = Passable_Object(20,20,200,10,gray,"hp_bar_background.png",False,False)
+    health_bar = None
+    movingsprites.add(health_bar_background)
 
     rooms = []
 
@@ -40,7 +43,6 @@ def main():
     current_room_no = 0
     current_room = rooms[current_room_no]
     player.room = current_room
-
 
     # ~~~ Main Loop ~~~
 
@@ -78,8 +80,16 @@ def main():
                 if event.key == pygame.K_d and player.move_speed[0] > 0:
                     player.stop()
                 if event.key == pygame.K_SPACE:
-                    movingsprites.remove(player.hitbox)
-               
+                    movingsprites.remove(player.attack_box)
+        
+        if movingsprites.has(health_bar):
+            movingsprites.remove(health_bar)
+
+        if player.hit_points > 0:
+            health_bar = Passable_Object(20,20,player.hit_points*2,10,red,"health_bar.png",False,False)
+        if player.hit_points <= 0:
+            health_bar = Passable_Object(20,20,1,10,red,"health_bar.png",False,False)
+        movingsprites.add(health_bar)
 
         movingsprites.update()
         current_room.update()

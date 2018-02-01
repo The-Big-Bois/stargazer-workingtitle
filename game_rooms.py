@@ -1,6 +1,9 @@
 import pygame
 from game_globals import *
 from game_objects import *
+from game_character import *
+from sprite_sheets import *
+from game_ai import *
 
 
 class Room(object):
@@ -124,6 +127,8 @@ class Room1(Room):
                             [500,195,100,20,brown,"breaking_branch.png",False,False,True],
                             [630,533,65,37,brown,"chest_battered.gif",True,False,True]]
 
+        enemies = [[650,292,3,2,bandit_sprites,sprite_sheet_list_names,bandit_sheet_info,False,bandit_ai,self.player]]
+
         #items = [[772,454,20,28, "cloak", "red_poncho_spritesheet.png"]]
         items = [[645,545,20,28,gray,"red_poncho_spritesheet.png",True,False,"cloak_01"],
                 [155,-45,20,28,gray,"blue_poncho_spritesheet.png",True,False,"cloak_02"]]
@@ -141,6 +146,12 @@ class Room1(Room):
             breakobj = Breakable_Object(item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7],item[8])
             self.breakables.add(breakobj)
         
+        for item in enemies:
+            enemy = Enemy(item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7],item[8],item[9])
+            self.enemy_sprites.add(enemy)
+            enemy.room = self
+
+
         for pickup in items:
             item = Item(pickup[0], pickup[1], pickup[2], pickup[3], pickup[4], pickup[5],pickup[6],pickup[7],pickup[8])
             self.items.add(item)
@@ -162,9 +173,18 @@ class Room2(Room):
                     [550,570,770,40,green,"floor.png",False,False],
                     [650,465,100,20,turqoise,"sturdy_branch_swapped.png",True,True]]
 
+        enemies = [[550,492,3,2,bandit_sprites,sprite_sheet_list_names,bandit_sheet_info,False,bandit_ai,self.player]]
+        #x, y, walk_speed, air_speed, sprite_sheet_list, sprite_sheet_list_names, patrol, AI, player
+
         for item in obstacles:
             obst = Obstacle(item[0], item[1], item[2],item[3],item[4],item[5],item[6],item[7])
             self.platform_list.add(obst)
+
+        for item in enemies:
+            enemy = Enemy(item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7],item[8],item[9])
+            self.enemy_sprites.add(enemy)
+            enemy.room = self
+
 
 class Room3(Room):
     def __init__(self, player):
