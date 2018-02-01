@@ -107,7 +107,7 @@ class Room1(Room):
                     [230,470,100,20,red,"sturdy_branch_swapped.gif",True,False],
                     [310,80,100,20,red,"sturdy_branch_swapped.gif",True,False]]
         
-        passable_objects = [[120,-995,300,1600,gray,"phat_tree.gif",True,False],
+        passable_objects = [[120,-997,300,1600,gray,"phat_tree_2.gif",True,False],
                             [220,-20,10,20,gray,"branch.png",False,False],
                             [220,170,10,20,gray,"branch.png",False,False],
                             [310,370,10,20,gray,"branch.png",False,False],
@@ -167,7 +167,7 @@ class Room2(Room):
         self.level_low = 0
 
         self.background.add(Background(0,0,800,600,gray,"moone_ver_3.png",True,False))
-        self.background_layer.add(Background(0,0,1300,600,gray,"test-tree.gif",True,False))
+        self.background_layer.add(Background(0,0,1600,600,gray,"new_tree_scroll_large.gif",True,False))
 
         obstacles = [[-20,570,496,40,green,"floor.png",False,False],
                     [550,570,770,40,green,"floor.png",False,False],
