@@ -44,7 +44,7 @@ class Character(pygame.sprite.Sprite):
         self.walk_speed = walk_speed
         self.air_speed = air_speed
 
-        self.hitbox_group = pygame.sprite.Group()
+        self.hitbox_group = pygame.sprite.GroupSingle()
         self.attack_box_group = pygame.sprite.Group()
         self.attack_status = False
 
@@ -57,6 +57,10 @@ class Character(pygame.sprite.Sprite):
         """ Update chracter position/state. """
         self.timer += 1
         self.calc_grav()
+
+        if self.dead:
+            self.room.passobject_list.remove(self.attack_box)
+            self.attack_box = None
 
         if not self.dead:
 
@@ -129,7 +133,7 @@ class Character(pygame.sprite.Sprite):
             # Stick attack hitbox to character
             if self.attack_box is not None: 
                 if self.direction == 'L':
-                    self.attack_box.rect.x = self.rect.left-40 
+                    self.attack_box.rect.x = self.rect.left-self.attack_range 
                     self.attack_box.rect.y = self.rect.y+20
                 elif self.direction == 'R':
                     self.attack_box.rect.x = self.rect.right
@@ -137,6 +141,11 @@ class Character(pygame.sprite.Sprite):
                 elif self.direction == 'D':
                     self.attack_box.rect.x = self.rect.left+17 
                     self.attack_box.rect.y = self.rect.bottom
+
+            # Remove attack hitbox after attack duration
+            if self.attack_box is not None and self.timer == self.attack_lastframe + self.attack_duration:
+                    self.room.passobject_list.remove(self.attack_box)
+                    self.attack_box = None
 
     def calc_grav(self):
         """ Calculate effect of gravity. """
@@ -195,15 +204,16 @@ class Character(pygame.sprite.Sprite):
     def attack(self, targets):
         if self.dodge_state == False:
             self.attack_status = True
-            if self.timer > self.attack_lastframe + self.attack_cooldown:
 
+            if self.timer > self.attack_lastframe + self.attack_cooldown:
+    
                 self.attack_lastframe = self.timer
                 if self.direction == "R":
-                    self.attack_box = Hitbox(self.rect.right, self.rect.y+20, 40, 10)
+                    self.attack_box = Hitbox(self.rect.right, self.rect.y+20, self.attack_range, 10)
                 elif self.direction == "L":
-                    self.attack_box = Hitbox(self.rect.left-40, self.rect.y+20, 40, 10)
+                    self.attack_box = Hitbox(self.rect.left-self.attack_range, self.rect.y+20, self.attack_range, 10)
                 elif self.direction == "D":
-                    self.attack_box = Hitbox(self.rect.left+17, self.rect.bottom, 10, 40)
+                    self.attack_box = Hitbox(self.rect.left+17, self.rect.bottom, 10, self.attack_range)
 
                 self.room.passobject_list.add(self.attack_box)
 
@@ -219,7 +229,7 @@ class Character(pygame.sprite.Sprite):
                 for target in targets_hit:
                     if target.attack_status == False:
                         target.hit_points -= self.attack_damage
-                        #print(enemy.hit_points)
+                        print(target.hit_points)
                         if target.hit_points <= 0:
                             target.dead = True
                             print(self.kill_string)
@@ -233,8 +243,6 @@ class Character(pygame.sprite.Sprite):
                         passobj = Passable_Object(position[0],position[1],position[2],position[3], gray,"empty.png",False,False)
                         self.room.passobject_list.add(passobj)
                         pygame.sprite.spritecollide(self.attack_box, self.room.breakables, True)
-                
-                self.room.passobject_list.remove(self.attack_box)
             
             self.attack_status = False
         else:
@@ -316,6 +324,8 @@ class Player(Character):
 
         self.attack_lastframe = 0
         self.attack_cooldown = 20
+        self.attack_duration = 40
+        self.attack_range = 40
         self.hit_points = 100
         self.attack_box = None
         self.kill_string = 'Victory achieved.'
@@ -348,11 +358,11 @@ class Player(Character):
 
                 self.attack_lastframe = self.timer
                 if self.direction == "R":
-                    self.attack_box = Hitbox(self.rect.right, self.rect.y+20, 40, 10)
+                    self.attack_box = Hitbox(self.rect.right, self.rect.y+20, self.attack_range, 10)
                 elif self.direction == "L":
-                    self.attack_box = Hitbox(self.rect.left-40, self.rect.y+20, 40, 10)
+                    self.attack_box = Hitbox(self.rect.left-self.attack_range, self.rect.y+20, self.attack_range, 10)
                 elif self.direction == "D":
-                    self.attack_box = Hitbox(self.rect.left+17, self.rect.bottom, 10, 40)
+                    self.attack_box = Hitbox(self.rect.left+17, self.rect.bottom, 10, self.attack_range)
 
                 enemy_hit = pygame.sprite.spritecollide(self.attack_box, self.room.enemy_sprites, False)
                 breakable_hit = pygame.sprite.spritecollide(self.attack_box, self.room.breakables, False)
@@ -360,7 +370,7 @@ class Player(Character):
                 for enemy in enemy_hit:
                     if enemy.attack_status == False:
                         enemy.hit_points -= 50
-                        print(enemy.hit_points)
+                        print('Enemy hp remaining: '+str(enemy.hit_points))
                         if enemy.hit_points <= 0:
                             enemy.dead = True
                             print('Victory achieved.')
@@ -431,8 +441,11 @@ class Enemy(Character):
         self.dodge_postdodge_attack = False
 
         self.attack_lastframe = 0
-        self.attack_cooldown = 60
+        self.attack_cooldown = 80
         self.attack_damage = AI['attack_damage']
+        self.attack_range = AI['attack_range_x']
+        self.attack_duration = AI['attack_duration']
+
         self.detection = False
         self.in_attack_range = False
         self.attack_box = None
@@ -488,12 +501,6 @@ class Enemy(Character):
             
             if self.in_attack_range:
                 self.stop()
-                self.attack_status = True
                 if not self.player.dead:
                     self.attack(self.player)
-                    if self.attack_box is not None:
-                        target_hit = pygame.sprite.spritecollide(self.attack_box, self.player.hitbox_group, False)
-                        if len(target_hit) > 0:
-                            self.player.hit_points -= 15
-                #print(self.player.hit_points)
-                self.attack_status = False
+
